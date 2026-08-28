@@ -1,4 +1,4 @@
-"""Reusable property card and detailed view components for NRE."""
+"""Reusable luxury property card and detailed view components for NRE."""
 
 import streamlit as st
 from pathlib import Path
@@ -48,18 +48,18 @@ def render_property_full_details(prop: dict, in_dialog: bool = False):
     # Title & Location Header
     st.markdown(f"## {prop['title']}")
     st.markdown(
-        f"<span style='color:#1A7A4C;font-weight:600;font-size:1.05rem;'>📍 {prop.get('locality', '')}</span>  ·  "
-        f"<span style='color:#6B7280;'>{icon} {prop['property_type']}</span>  ·  "
-        f"<span style='color:#6B7280;'>Listed {posted}</span>",
+        f"<span style='color:#0F766E;font-weight:700;font-size:1.05rem;'>📍 {prop.get('locality', '')}</span>  ·  "
+        f"<span style='color:#64748B;'>{icon} {prop['property_type']}</span>  ·  "
+        f"<span style='color:#94A3B8;'>Listed {posted}</span>",
         unsafe_allow_html=True,
     )
 
-    # ── Price Banner ───────────────────────────────────────────────────────────
+    # ── Luxury Price Banner ────────────────────────────────────────────────────
     with st.container(border=True):
         p_col1, p_col2 = st.columns([2, 1])
         with p_col1:
             st.markdown(
-                f"<div style='font-size:1.8rem;font-weight:800;color:#FF6B00;line-height:1.2;'>"
+                f"<div style='font-family:Outfit,sans-serif;font-size:2rem;font-weight:800;color:#E85D04;line-height:1.2;'>"
                 f"{price_str}</div>",
                 unsafe_allow_html=True,
             )
@@ -67,10 +67,10 @@ def render_property_full_details(prop: dict, in_dialog: bool = False):
                 st.caption(f"Estimated Rate: **{price_per_sqft}**")
         with p_col2:
             status = prop.get("status", "Active")
-            status_color = "#1A7A4C" if status == "Active" else "#E05500"
+            status_color = "#0F766E" if status == "Active" else "#E85D04"
             st.markdown(
-                f"<div style='text-align:right;'><span style='background:{status_color}22;color:{status_color};"
-                f"font-weight:700;padding:4px 12px;border-radius:20px;font-size:0.85rem;'>"
+                f"<div style='text-align:right;'><span style='background:{status_color}18;color:{status_color};"
+                f"font-weight:700;padding:6px 14px;border-radius:20px;font-size:0.85rem;border:1px solid {status_color}33;'>"
                 f"● {status}</span></div>",
                 unsafe_allow_html=True,
             )
@@ -79,19 +79,17 @@ def render_property_full_details(prop: dict, in_dialog: bool = False):
 
     # ── ALL PHOTOS GALLERY ─────────────────────────────────────────────────────
     images = get_valid_images(prop)
-    st.markdown(f"### 📸 Photos ({len(images)})")
+    st.markdown(f"### 📸 Photo Gallery ({len(images)})")
 
     if images:
         if len(images) == 1:
-            st.image(str(images[0]), use_container_width=True, caption=f"{prop['title']} — Photo 1 of 1")
+            st.image(str(images[0]), use_container_width=True, caption=f"{prop['title']} — High Resolution Photo")
         else:
-            # Multi-photo display: main photo + thumbnail grid / tabs
             tabs = st.tabs([f"🖼️ Photo {i+1}" for i in range(len(images))])
             for i, img_path in enumerate(images):
                 with tabs[i]:
                     st.image(str(img_path), use_container_width=True, caption=f"Photo {i+1} of {len(images)}")
             
-            # Also provide a full overview grid
             with st.expander(f"🔍 View all {len(images)} photos in grid"):
                 photo_cols = st.columns(min(len(images), 3))
                 for i, img_path in enumerate(images):
@@ -99,18 +97,18 @@ def render_property_full_details(prop: dict, in_dialog: bool = False):
                         st.image(str(img_path), use_container_width=True, caption=f"Photo {i+1}")
     else:
         st.markdown(
-            f"<div style='background:linear-gradient(135deg,#FFF3E0,#E8F5E9);"
-            f"border-radius:12px;height:180px;display:flex;align-items:center;"
-            f"justify-content:center;font-size:4rem;border:1px dashed #E5E7EB;'>"
+            f"<div style='background:linear-gradient(135deg,#FFF7ED,#F0FDFA);"
+            f"border-radius:14px;height:180px;display:flex;align-items:center;"
+            f"justify-content:center;font-size:4rem;border:1px dashed #E2E8F0;'>"
             f"{icon}</div>",
             unsafe_allow_html=True,
         )
-        st.caption("No photos uploaded for this property yet.")
+        st.caption("No photos uploaded for this property.")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # ── PROPERTY SPECIFICATIONS ────────────────────────────────────────────────
-    st.markdown("### 📋 Property Overview")
+    st.markdown("### 📋 Property Overview & Specifications")
     specs = []
     if prop.get("bedrooms"):
         specs.append(("🛏 Bedrooms", f"{prop['bedrooms']} BHK"))
@@ -122,10 +120,9 @@ def render_property_full_details(prop: dict, in_dialog: bool = False):
         specs.append(("🧭 Facing", prop["facing"]))
     if prop.get("age_years") is not None:
         specs.append(("🏗 Property Age", "Brand New" if prop["age_years"] == 0 else f"{prop['age_years']} Years"))
-    specs.append(("🏠 Property Type", prop["property_type"]))
+    specs.append(("🏠 Type", prop["property_type"]))
     specs.append(("📍 Locality", prop["locality"]))
 
-    # Render specs in a 3-column metric card grid
     spec_cols = st.columns(3)
     for i, (label, val) in enumerate(specs):
         with spec_cols[i % 3]:
@@ -149,17 +146,17 @@ def render_property_full_details(prop: dict, in_dialog: bool = False):
     try:
         from components.map_component import single_property_map
         single_property_map(prop, height=320)
-    except Exception as e:
+    except Exception:
         st.caption(f"📍 Location: {prop.get('locality', 'Nellore')}")
 
     # ── SELLER / AGENT CONTACT ─────────────────────────────────────────────────
     st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("### 📞 Seller & Agent Contact")
+    st.markdown("### 📞 Verified Seller & Agent Contact")
     _render_contact(prop, f"detail_contact_{prop['id']}")
 
 
 def render_property_card(prop: dict, show_contact: bool = False, card_key: str = ""):
-    """Render a single property card in grid with photo indicator and details trigger."""
+    """Render a luxury property card with sleek badge, typography, and clear action button."""
     icon = property_icon(prop["property_type"])
     price_str = format_price(prop["price"])
     posted = days_ago(prop.get("posted_date", ""))
@@ -178,9 +175,9 @@ def render_property_card(prop: dict, show_contact: bool = False, card_key: str =
         # Featured badge
         if is_featured:
             st.markdown(
-                "<span style='background:#FF6B00;color:white;font-size:0.7rem;"
-                "font-weight:700;padding:3px 10px;border-radius:20px;"
-                "text-transform:uppercase;letter-spacing:0.05em;'>⭐ Featured</span>",
+                "<span style='background:linear-gradient(135deg,#E85D04,#FF7700);color:white;font-size:0.72rem;"
+                "font-weight:700;padding:4px 12px;border-radius:20px;"
+                "text-transform:uppercase;letter-spacing:0.06em;box-shadow:0 2px 8px rgba(232,93,4,0.3);'>⭐ Featured</span>",
                 unsafe_allow_html=True,
             )
 
@@ -188,13 +185,13 @@ def render_property_card(prop: dict, show_contact: bool = False, card_key: str =
         if images:
             st.image(str(images[0]), use_container_width=True)
             if num_images > 1:
-                st.caption(f"📸 **1 of {num_images} Photos** (Click 'View Details' below to see all)")
+                st.caption(f"📸 **1 of {num_images} Photos**")
         else:
             st.markdown(
-                f"<div style='background:linear-gradient(135deg,#FFF3E0,#E8F5E9);"
-                f"border-radius:10px;height:140px;display:flex;align-items:center;"
-                f"justify-content:center;font-size:3rem;margin-bottom:0.5rem;"
-                f"border:1px dashed #E5E7EB;'>{icon}</div>",
+                f"<div style='background:linear-gradient(135deg,#FFF7ED,#F0FDFA);"
+                f"border-radius:12px;height:150px;display:flex;align-items:center;"
+                f"justify-content:center;font-size:3.2rem;margin-bottom:0.5rem;"
+                f"border:1px dashed #E2E8F0;'>{icon}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -207,15 +204,15 @@ def render_property_card(prop: dict, show_contact: bool = False, card_key: str =
         # Locality
         locality = prop.get("locality", "")
         st.markdown(
-            f"<span style='color:#1A7A4C;font-weight:500;font-size:0.88rem;'>"
+            f"<span style='color:#0F766E;font-weight:600;font-size:0.90rem;'>"
             f"📍 {locality}</span>",
             unsafe_allow_html=True,
         )
 
         # Price
         st.markdown(
-            f"<div style='font-size:1.35rem;font-weight:700;color:#FF6B00;"
-            f"margin:0.3rem 0;'>{price_str}</div>",
+            f"<div style='font-family:Outfit,sans-serif;font-size:1.45rem;font-weight:800;color:#E85D04;"
+            f"margin:0.35rem 0;'>{price_str}</div>",
             unsafe_allow_html=True,
         )
 
@@ -240,7 +237,7 @@ def render_property_card(prop: dict, show_contact: bool = False, card_key: str =
         if desc:
             preview = desc[:140] + "…" if len(desc) > 140 else desc
             st.markdown(
-                f"<div style='font-size:0.83rem;color:#6B7280;line-height:1.4;"
+                f"<div style='font-size:0.84rem;color:#64748B;line-height:1.45;"
                 f"margin:0.3rem 0;'>{preview}</div>",
                 unsafe_allow_html=True,
             )
@@ -271,13 +268,13 @@ def _render_contact(prop: dict, card_key: str):
     with st.container(border=True):
         st.markdown(f"### 🤝 {seller}")
         st.markdown(
-            f"<div style='font-size:1.2rem;font-weight:700;color:#1A7A4C;margin:4px 0;'>"
-            f"📞 <a href='tel:{phone}' style='color:#1A7A4C;text-decoration:none;'>{phone}</a></div>",
+            f"<div style='font-size:1.2rem;font-weight:700;color:#0F766E;margin:4px 0;'>"
+            f"📞 <a href='tel:{phone}' style='color:#0F766E;text-decoration:none;'>{phone}</a></div>",
             unsafe_allow_html=True,
         )
         st.markdown(
-            f'<a href="{wa_link}" target="_blank" style="background:#25D366;color:white;'
-            f'border-radius:24px;padding:8px 24px;font-weight:700;font-size:0.95rem;'
+            f'<a href="{wa_link}" target="_blank" style="background:linear-gradient(135deg,#25D366,#1EBE5D);color:white;'
+            f'border-radius:24px;padding:8px 24px;font-weight:700;font-size:0.95rem;box-shadow:0 4px 14px rgba(37,211,102,0.35);'
             f'text-decoration:none;display:inline-block;margin-top:8px;">💬 Chat on WhatsApp</a>',
             unsafe_allow_html=True,
         )

@@ -1,216 +1,263 @@
-/* ============================================================
-   NRE — Nellore Real Estate | Modern Design System
-   Theme: Modern Saffron & Emerald Slate Theme
-   ============================================================ */
+/* ==========================================================================
+   NRE — Nellore Real Estate | Ultra-Premium Luxury Design System
+   Inspired by Architectural Digest & Modern Luxury Real Estate Platforms
+   ========================================================================== */
 
-/* ── Typography ─────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/* ── Typography (Outfit for Headers & Plus Jakarta Sans for UI) ──────────── */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-/* ── CSS Variables ───────────────────────────────────────────── */
+/* ── Design Tokens ───────────────────────────────────────────────────────── */
 :root {
-    --primary:          #FF6B00;   /* Vibrant Saffron */
-    --primary-light:    #FFF4ED;
-    --primary-hover:    #E55A00;
-    --secondary:        #0D824D;   /* Rich Emerald Green */
-    --secondary-light:  #ECFDF5;
-    --secondary-hover:  #0A683D;
+    /* Brand Colors */
+    --primary:          #E85D04;   /* Luxury Warm Saffron */
+    --primary-light:    #FFF5EB;
+    --primary-gradient: linear-gradient(135deg, #FF6B00 0%, #E85D04 50%, #C84600 100%);
+    --primary-glow:     0 8px 24px -4px rgba(232, 93, 4, 0.32);
     
-    --bg-page:          #F8FAFC;   /* Modern Slate 50 */
-    --bg-card:          #FFFFFF;
+    --secondary:        #0F766E;   /* Deep Forest Emerald */
+    --secondary-light:  #F0FDFA;
+    --secondary-gradient: linear-gradient(135deg, #0F766E 0%, #115E59 100%);
+    
+    --gold:             #D97706;   /* Champagne Gold Accent */
+    --gold-light:       #FEF3C7;
+    
+    /* Backgrounds */
+    --bg-page:          #F8FAFC;
+    --bg-surface:       #FFFFFF;
     --bg-elevated:      #FFFFFF;
+    --bg-card:          #FFFFFF;
     
-    --text-heading:     #0F172A;   /* Slate 900 */
-    --text-body:        #334155;   /* Slate 700 */
+    /* Typography Colors */
+    --text-primary:     #0A0F1D;   /* Rich Obsidian */
+    --text-secondary:   #334155;   /* Slate 700 */
     --text-muted:       #64748B;   /* Slate 500 */
+    --text-subtle:      #94A3B8;   /* Slate 400 */
     
-    --border-light:     #E2E8F0;   /* Slate 200 */
-    --border-hover:     #CBD5E1;   /* Slate 300 */
+    /* Borders & Dividers */
+    --border-subtle:    #E2E8F0;
+    --border-card:      #E9ECEF;
+    --border-hover:     #CBD5E1;
+    --border-focus:     #FF8C38;
     
-    --shadow-sm:        0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
-    --shadow-md:        0 4px 16px -2px rgba(15, 23, 42, 0.07), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
-    --shadow-lg:        0 12px 32px -4px rgba(15, 23, 42, 0.10), 0 4px 12px -2px rgba(15, 23, 42, 0.05);
-    --shadow-primary:   0 8px 24px -4px rgba(255, 107, 0, 0.28);
+    /* Shadows */
+    --shadow-card:      0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+    --shadow-card-hover:0 12px 36px -4px rgba(15, 23, 42, 0.10), 0 4px 12px -2px rgba(15, 23, 42, 0.05);
+    --shadow-modal:     0 24px 48px -12px rgba(15, 23, 42, 0.20), 0 8px 24px -4px rgba(15, 23, 42, 0.08);
     
-    --radius-lg:        16px;
-    --radius-md:        12px;
-    --radius-sm:        8px;
+    /* Geometry */
+    --radius-hero:      20px;
+    --radius-card:      16px;
+    --radius-btn:       12px;
     --radius-pill:      9999px;
 }
 
-/* ── Global Layout & Typography ──────────────────────────────── */
+/* ── Global Layout & Typography ──────────────────────────────────────────── */
 html, body, [class*="css"] {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     background-color: var(--bg-page) !important;
-    color: var(--text-body) !important;
+    color: var(--text-secondary) !important;
     -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
 }
 
-/* Main app container background with subtle radial glow */
+/* App Canvas with subtle ambient atmospheric illumination */
 .stApp {
     background: 
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 107, 0, 0.06), transparent 70%),
-        radial-gradient(ellipse 60% 40% at 85% 10%, rgba(13, 130, 77, 0.04), transparent 60%),
+        radial-gradient(ellipse 90% 40% at 50% -5%, rgba(232, 93, 4, 0.05) 0%, transparent 65%),
+        radial-gradient(ellipse 70% 30% at 90% 15%, rgba(15, 118, 110, 0.04) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 40% at 10% 40%, rgba(217, 119, 6, 0.03) 0%, transparent 50%),
         var(--bg-page) !important;
 }
 
 /* Streamlit Header / Footer Cleanup */
 #MainMenu, footer, header {
-    visibility: hidden;
-    height: 0;
+    visibility: hidden !important;
+    height: 0 !important;
+    display: none !important;
 }
 
 .block-container {
-    padding-top: 1.8rem !important;
-    padding-bottom: 3.5rem !important;
+    padding-top: 1.5rem !important;
+    padding-bottom: 4rem !important;
     max-width: 1240px !important;
 }
 
-/* Headings */
+/* Headings with luxury Outfit font */
 h1, h2, h3, h4, h5, h6 {
-    color: var(--text-heading) !important;
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif !important;
+    color: var(--text-primary) !important;
     font-weight: 700 !important;
-    letter-spacing: -0.02em !important;
+    letter-spacing: -0.025em !important;
 }
 
-h1 { font-size: 2.2rem !important; }
-h2 { font-size: 1.6rem !important; margin-top: 1rem !important; }
-h3 { font-size: 1.25rem !important; }
+h1 { font-size: 2.3rem !important; line-height: 1.2 !important; }
+h2 { font-size: 1.65rem !important; margin-top: 1.2rem !important; }
+h3 { font-size: 1.28rem !important; }
+h4 { font-size: 1.05rem !important; font-weight: 600 !important; }
 
-/* ── Hero Banner ─────────────────────────────────────────────── */
-.nre-hero {
-    background: linear-gradient(135deg, #FF6B00 0%, #FF8A00 45%, #0D824D 100%);
-    border-radius: var(--radius-lg);
-    padding: 3.2rem 2.2rem;
+/* ── Luxury Hero Banner ──────────────────────────────────────────────────── */
+.nre-hero-luxury {
+    background: linear-gradient(135deg, #07130E 0%, #0D261B 40%, #163828 75%, #271E0B 100%);
+    border-radius: var(--radius-hero);
+    padding: 3.5rem 2.5rem;
     text-align: center;
     margin-bottom: 2rem;
     color: white;
-    box-shadow: var(--shadow-primary);
+    box-shadow: 0 16px 40px -8px rgba(7, 19, 14, 0.45);
+    border: 1px solid rgba(255, 184, 77, 0.22);
     position: relative;
     overflow: hidden;
 }
 
-.nre-hero::before {
+.nre-hero-luxury::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(circle at 20% 150%, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 140, 56, 0.12) 0%, transparent 60%);
     pointer-events: none;
 }
 
-.nre-hero h1 {
-    font-size: 2.9rem !important;
+.nre-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 184, 77, 0.35);
+    color: #FCD34D;
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+}
+
+.nre-hero-luxury h1 {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 3.1rem !important;
     font-weight: 800 !important;
-    margin-bottom: 0.6rem !important;
-    color: white !important;
-    letter-spacing: -0.03em !important;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    margin-bottom: 0.75rem !important;
+    color: #FFFFFF !important;
+    letter-spacing: -0.035em !important;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.3);
 }
 
-.nre-hero p {
-    font-size: 1.2rem;
-    font-weight: 500;
-    opacity: 0.95;
-    margin-bottom: 0 !important;
-    color: #FFFDF9;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+.nre-hero-luxury h1 span {
+    background: linear-gradient(135deg, #FFB703 0%, #FB8500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* ── Container & Card Surfaces ────────────────────────────────── */
+.nre-hero-luxury p {
+    font-size: 1.18rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.90);
+    max-width: 720px;
+    margin: 0 auto !important;
+    line-height: 1.6;
+}
+
+/* ── Container & Card Surfaces ───────────────────────────────────────────── */
 [data-testid="stVerticalBlockBorderWrapper"] {
     background-color: var(--bg-card) !important;
-    border-radius: var(--radius-lg) !important;
-    border: 1px solid var(--border-light) !important;
-    box-shadow: var(--shadow-sm) !important;
-    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    border-radius: var(--radius-card) !important;
+    border: 1px solid var(--border-card) !important;
+    box-shadow: var(--shadow-card) !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
     overflow: hidden;
 }
 
 [data-testid="stVerticalBlockBorderWrapper"]:hover {
     border-color: var(--border-hover) !important;
-    box-shadow: var(--shadow-md) !important;
+    box-shadow: var(--shadow-card-hover) !important;
 }
 
-/* ── Metric / Stat Displays ───────────────────────────────────── */
+/* ── Metric / Stat Displays ──────────────────────────────────────────────── */
 [data-testid="stMetric"] {
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
-    padding: 1rem 1.2rem;
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    padding: 1.1rem 1.3rem;
+    box-shadow: var(--shadow-card);
+    transition: all 0.22s ease;
 }
 
 [data-testid="stMetric"]:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: rgba(255, 107, 0, 0.3);
+    transform: translateY(-3px);
+    border-color: rgba(232, 93, 4, 0.35);
+    box-shadow: var(--shadow-card-hover);
 }
 
 [data-testid="stMetricValue"] {
-    font-size: 1.85rem !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 2rem !important;
     font-weight: 800 !important;
     color: var(--primary) !important;
     letter-spacing: -0.03em;
 }
 
 [data-testid="stMetricLabel"] {
-    font-size: 0.82rem !important;
-    font-weight: 600 !important;
+    font-size: 0.80rem !important;
+    font-weight: 700 !important;
     color: var(--text-muted) !important;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
 }
 
-/* ── Buttons ─────────────────────────────────────────────────── */
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
 .stButton > button {
-    border-radius: var(--radius-md) !important;
+    border-radius: var(--radius-btn) !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-weight: 600 !important;
-    font-size: 0.92rem !important;
-    padding: 0.55rem 1.4rem !important;
+    font-size: 0.94rem !important;
+    padding: 0.58rem 1.5rem !important;
     border: 1px solid transparent !important;
-    transition: all 0.18s ease-in-out !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
     cursor: pointer !important;
 }
 
-/* Primary Button */
+/* Primary Button with Luxury Gradient & Glow */
 .stButton > button[kind="primary"],
 .stButton > button:not([kind="secondary"]):not([kind="tertiary"]) {
-    background: linear-gradient(135deg, #FF6B00 0%, #FF8500 100%) !important;
-    color: white !important;
-    box-shadow: 0 3px 12px rgba(255, 107, 0, 0.25) !important;
+    background: var(--primary-gradient) !important;
+    color: #FFFFFF !important;
+    box-shadow: var(--primary-glow) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
 .stButton > button[kind="primary"]:hover,
 .stButton > button:not([kind="secondary"]):not([kind="tertiary"]):hover {
-    background: linear-gradient(135deg, #E55A00 0%, #FF7700 100%) !important;
-    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.35) !important;
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, #FF7700 0%, #D84F00 100%) !important;
+    box-shadow: 0 10px 28px -2px rgba(232, 93, 4, 0.45) !important;
+    transform: translateY(-2px);
 }
 
 /* Secondary Button */
 .stButton > button[kind="secondary"] {
     background: #FFFFFF !important;
-    color: var(--text-heading) !important;
-    border: 1px solid var(--border-light) !important;
-    box-shadow: var(--shadow-sm) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-subtle) !important;
+    box-shadow: var(--shadow-card) !important;
 }
 
 .stButton > button[kind="secondary"]:hover {
     border-color: var(--primary) !important;
     color: var(--primary) !important;
     background: var(--primary-light) !important;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
-/* ── Input Fields & Selectboxes ──────────────────────────────── */
+/* ── Input Fields & Selectboxes ──────────────────────────────────────────── */
 .stTextInput input,
 .stNumberInput input,
 .stTextArea textarea,
 .stSelectbox > div > div {
-    border-radius: var(--radius-md) !important;
-    border: 1px solid var(--border-light) !important;
+    border-radius: var(--radius-btn) !important;
+    border: 1px solid var(--border-subtle) !important;
     background-color: #FFFFFF !important;
-    color: var(--text-heading) !important;
+    color: var(--text-primary) !important;
     font-size: 0.95rem !important;
     box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
     transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
@@ -220,14 +267,14 @@ h3 { font-size: 1.25rem !important; }
 .stNumberInput input:focus,
 .stTextArea textarea:focus {
     border-color: var(--primary) !important;
-    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.16) !important;
+    box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.18) !important;
 }
 
-/* ── Sidebar ─────────────────────────────────────────────────── */
+/* ── Sidebar ─────────────────────────────────────────────────────────────── */
 section[data-testid="stSidebar"] {
     background-color: #FFFFFF !important;
-    border-right: 1px solid var(--border-light) !important;
-    box-shadow: 2px 0 12px rgba(15, 23, 42, 0.03) !important;
+    border-right: 1px solid var(--border-subtle) !important;
+    box-shadow: 4px 0 20px rgba(15, 23, 42, 0.03) !important;
 }
 
 section[data-testid="stSidebar"] h2 {
@@ -236,12 +283,12 @@ section[data-testid="stSidebar"] h2 {
     font-weight: 800 !important;
 }
 
-/* ── Expanders ───────────────────────────────────────────────── */
+/* ── Expanders ───────────────────────────────────────────────────────────── */
 details {
     background-color: #FFFFFF !important;
-    border-radius: var(--radius-md) !important;
-    border: 1px solid var(--border-light) !important;
-    box-shadow: var(--shadow-sm) !important;
+    border-radius: var(--radius-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    box-shadow: var(--shadow-card) !important;
     transition: all 0.2s ease !important;
     overflow: hidden;
 }
@@ -251,25 +298,25 @@ details:hover {
 }
 
 details[open] {
-    border-color: rgba(255, 107, 0, 0.4) !important;
-    box-shadow: var(--shadow-md) !important;
+    border-color: rgba(232, 93, 4, 0.4) !important;
+    box-shadow: var(--shadow-card-hover) !important;
 }
 
 summary {
     font-weight: 600 !important;
-    color: var(--text-heading) !important;
-    padding: 0.8rem 1rem !important;
+    color: var(--text-primary) !important;
+    padding: 0.85rem 1.1rem !important;
 }
 
-/* ── Tabs ────────────────────────────────────────────────────── */
+/* ── Tabs ────────────────────────────────────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {
     gap: 8px;
-    border-bottom: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-subtle);
 }
 
 .stTabs [data-baseweb="tab"] {
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-    padding: 0.5rem 1rem;
+    border-radius: 8px 8px 0 0;
+    padding: 0.6rem 1.2rem;
     font-weight: 600;
     color: var(--text-muted);
     transition: all 0.15s ease;
@@ -280,10 +327,11 @@ summary {
     border-bottom-color: var(--primary) !important;
 }
 
-/* ── Alerts & Info Banners ───────────────────────────────────── */
+/* ── Alerts & Status Banners ─────────────────────────────────────────────── */
 .stAlert {
-    border-radius: var(--radius-md) !important;
-    font-size: 0.92rem !important;
+    border-radius: 14px !important;
+    font-size: 0.94rem !important;
+    box-shadow: var(--shadow-card) !important;
 }
 
 .stSuccess {
@@ -298,26 +346,26 @@ summary {
     color: #9A3412 !important;
 }
 
-/* ── Dialog / Modal Windows ──────────────────────────────────── */
+/* ── Dialog / Modal Window ───────────────────────────────────────────────── */
 [data-testid="stDialog"] > div {
-    border-radius: 20px !important;
-    border: 1px solid var(--border-light) !important;
-    box-shadow: var(--shadow-lg) !important;
-    padding: 1.5rem !important;
+    border-radius: 24px !important;
+    border: 1px solid var(--border-subtle) !important;
+    box-shadow: var(--shadow-modal) !important;
+    padding: 1.8rem !important;
 }
 
-/* ── Images ──────────────────────────────────────────────────── */
+/* ── Images ──────────────────────────────────────────────────────────────── */
 [data-testid="stImage"] img {
-    border-radius: var(--radius-md);
+    border-radius: 12px;
     object-fit: cover;
 }
 
-/* ── Footer ──────────────────────────────────────────────────── */
-.nre-footer {
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.nre-footer-luxury {
     text-align: center;
-    padding: 2rem 1rem 1rem 1rem;
+    padding: 2.5rem 1.5rem 1.5rem 1.5rem;
     color: var(--text-muted);
-    font-size: 0.85rem;
-    border-top: 1px solid var(--border-light);
-    margin-top: 3.5rem;
+    font-size: 0.88rem;
+    border-top: 1px solid var(--border-subtle);
+    margin-top: 4rem;
 }

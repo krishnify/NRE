@@ -185,17 +185,28 @@ from utils.helpers import search_nellore_locations, NELLORE_LANDMARKS
 selected_loc = st.session_state.get("locality_sel", "— Select Area —")
 area_lat, area_lon = AREA_COORDS.get(selected_loc, (NELLORE_LAT, NELLORE_LON))
 
-# Reset to area coords whenever the locality changes
+# Reset to area coords ONLY when the locality dropdown actually changes
 if st.session_state.get("_last_locality") != selected_loc:
     st.session_state["pin_lat"] = area_lat
     st.session_state["pin_lon"] = area_lon
-    st.session_state["pin_label"] = f"Area: {selected_loc}" if selected_loc != "— Select Area —" else "Nellore"
+    st.session_state["pin_label"] = f"Area: {selected_loc}" if selected_loc != "— Select Area —" else "Nellore City"
     st.session_state["_last_locality"] = selected_loc
 
 if "pin_lat" not in st.session_state:
     st.session_state["pin_lat"] = area_lat
     st.session_state["pin_lon"] = area_lon
     st.session_state["pin_label"] = "Property Location"
+
+# ── Landmark Callback (executes ONLY when user actively changes dropdown) ────
+def on_landmark_chosen():
+    chosen = st.session_state.get("quick_landmark_sel")
+    if chosen and chosen != "— Or select a famous Nellore landmark —":
+        for lm in NELLORE_LANDMARKS:
+            if lm["name"] in chosen:
+                st.session_state["pin_lat"] = lm["lat"]
+                st.session_state["pin_lon"] = lm["lon"]
+                st.session_state["pin_label"] = lm["name"]
+                break
 
 # ── 🔍 Search Box (Google Maps style) ─────────────────────────────────────────
 with st.container(border=True):
@@ -212,24 +223,16 @@ with st.container(border=True):
     with s_col2:
         search_clicked = st.button("🔍 Find on Map", use_container_width=True, type="secondary")
 
-    # Quick Landmark Picker dropdown
+    # Quick Landmark Picker dropdown (uses callback to avoid overwriting map clicks)
     landmark_options = ["— Or select a famous Nellore landmark —"] + [f"{lm['category']} {lm['name']} ({lm['area']})" for lm in NELLORE_LANDMARKS]
-    chosen_landmark = st.selectbox(
+    st.selectbox(
         "Famous landmarks",
         landmark_options,
         index=0,
         label_visibility="collapsed",
-        key="quick_landmark_sel"
+        key="quick_landmark_sel",
+        on_change=on_landmark_chosen,
     )
-
-    if chosen_landmark and chosen_landmark != "— Or select a famous Nellore landmark —":
-        idx = landmark_options.index(chosen_landmark) - 1
-        matched_lm = NELLORE_LANDMARKS[idx]
-        if (st.session_state.get("pin_lat") != matched_lm["lat"] or st.session_state.get("pin_lon") != matched_lm["lon"]):
-            st.session_state["pin_lat"] = matched_lm["lat"]
-            st.session_state["pin_lon"] = matched_lm["lon"]
-            st.session_state["pin_label"] = matched_lm["name"]
-            st.rerun()
 
     # Handle text search
     if map_search_input.strip():
@@ -245,14 +248,14 @@ with st.container(border=True):
                         st.session_state["pin_label"] = res["name"]
                         st.rerun()
         elif search_clicked:
-            st.warning(f"No exact match found for '{map_search_input}'. You can browse the map or select an area above.")
+            st.warning(f"No exact match found for '{map_search_input}'. You can click directly on the map or select an area above.")
 
 # ── Render Satellite Map ───────────────────────────────────────────────────────
-pin_lat = st.session_state.get("pin_lat", area_lat)
-pin_lon = st.session_state.get("pin_lon", area_lon)
+pin_lat = float(st.session_state["pin_lat"])
+pin_lon = float(st.session_state["pin_lon"])
 pin_label = st.session_state.get("pin_label", "Property Location")
 
-st.info(f"📍 Current Pin: **{pin_label}** `(Lat: {pin_lat:.5f}, Lon: {pin_lon:.5f})` — Click on the map to fine-tune exact rooftop or plot.")
+st.info(f"📍 Current Pin: **{pin_label}** `(Latitude: {pin_lat:.6f}, Longitude: {pin_lon:.6f})` — Click anywhere on the map to place or adjust your pin.")
 
 map_data = make_folium_map(
     lat=pin_lat,
@@ -261,44 +264,36 @@ map_data = make_folium_map(
     height=450,
     marker_popup=pin_label,
     show_click_hint=True,
+    key="folium_post_property_map",
 )
 
-# ── Handle map click → update pin ─────────────────────────────────────────────
+# ── Handle map click → update pin coordinates permanently ─────────────────────
 if map_data and map_data.get("last_clicked"):
-    clicked_lat = map_data["last_clicked"]["lat"]
-    clicked_lon = map_data["last_clicked"]["lng"]
-    if (abs(clicked_lat - pin_lat) > 0.00001 or abs(clicked_lon - pin_lon) > 0.00001):
+    clicked_lat = round(float(map_data["last_clicked"]["lat"]), 6)
+    clicked_lon = round(float(map_data["last_clicked"]["lng"]), 6)
+    if (abs(clicked_lat - pin_lat) > 0.000005 or abs(clicked_lon - pin_lon) > 0.000005):
         st.session_state["pin_lat"] = clicked_lat
         st.session_state["pin_lon"] = clicked_lon
-        st.session_state["pin_label"] = "Pinned on Map"
+        st.session_state["pin_label"] = "Pinned on Map (Custom Location)"
         st.rerun()
 
-# ── Show selected coordinates (read-only display + manual override) ────────────
+# ── Confirmed Coordinates Display ─────────────────────────────────────────────
 coord_col1, coord_col2 = st.columns(2)
 with coord_col1:
-    latitude = st.number_input(
-        "Latitude (auto-filled from map click)",
-        value=float(st.session_state.get("pin_lat", pin_lat)),
-        format="%.6f",
-        step=0.0001,
-        key="manual_lat",
-        help="Click on the map above or search a landmark to set.",
+    st.text_input(
+        "📍 Latitude (Auto-captured from map click)",
+        value=f"{st.session_state['pin_lat']:.6f}",
+        disabled=True,
+        help="Updates instantly when you click on the map above.",
     )
 with coord_col2:
-    longitude = st.number_input(
-        "Longitude (auto-filled from map click)",
-        value=float(st.session_state.get("pin_lon", pin_lon)),
-        format="%.6f",
-        step=0.0001,
-        key="manual_lon",
-        help="Click on the map above or search a landmark to set.",
+    st.text_input(
+        "📍 Longitude (Auto-captured from map click)",
+        value=f"{st.session_state['pin_lon']:.6f}",
+        disabled=True,
+        help="Updates instantly when you click on the map above.",
     )
 
-# Sync manual edits back to session state
-if latitude != st.session_state.get("pin_lat"):
-    st.session_state["pin_lat"] = latitude
-if longitude != st.session_state.get("pin_lon"):
-    st.session_state["pin_lon"] = longitude
 
 
 
@@ -374,11 +369,12 @@ if submitted:
             "is_featured":     0,
             "status":          "Active",
             "images":          "",
-            "latitude":        float(latitude),
-            "longitude":       float(longitude),
+            "latitude":        float(st.session_state["pin_lat"]),
+            "longitude":       float(st.session_state["pin_lon"]),
         }
 
         new_id = add_property(prop_data)
+
 
         # ── Save uploaded images ───────────────────────────────────────────────
         saved_filenames = []

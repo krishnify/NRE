@@ -30,10 +30,11 @@ HYBRID_LABELS_TILES = (
 def make_folium_map(
     lat: float,
     lon: float,
-    zoom: int = 15,
+    zoom: int = 16,
     height: int = 430,
     marker_popup: str = "Property Location",
     show_click_hint: bool = True,
+    key: str = "folium_post_property_map",
 ) -> dict:
     """
     Render an interactive Folium map with satellite + street layers and search plugin.
@@ -114,10 +115,12 @@ def make_folium_map(
         m,
         use_container_width=True,
         height=height,
+        key=key,
         returned_objects=["last_clicked"],
     )
 
     return map_data
+
 
 
 def properties_overview_map(properties: list[dict], height: int = 380) -> None:

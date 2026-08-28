@@ -8,11 +8,20 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
 from pathlib import Path
+
+st.set_page_config(
+    page_title="Browse Properties — NRE",
+    page_icon="🔍",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
 from database.db import init_db, search_properties, get_all_areas
 from database.seed import seed
 from components.property_card import render_property_card, _render_contact
 from components.filters import render_filters
 from utils.helpers import format_price
+
 
 # ── Bootstrap ─────────────────────────────────────────────────────────────────
 @st.cache_resource

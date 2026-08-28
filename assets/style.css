@@ -69,14 +69,37 @@ html, body, [class*="css"] {
         var(--bg-page) !important;
 }
 
-/* Streamlit Header / Footer Cleanup */
-#MainMenu, footer, header {
-    visibility: hidden !important;
-    height: 0 !important;
-    display: none !important;
+/* Streamlit Menu & Footer Cleanup (Keep sidebar toggle button accessible) */
+#MainMenu { visibility: hidden !important; }
+footer { visibility: hidden !important; }
+header {
+    background: transparent !important;
+}
+
+/* Ensure the sidebar toggle chevron (> and <) is always visible and beautifully styled */
+[data-testid="stSidebarCollapsedControl"] {
+    visibility: visible !important;
+    display: flex !important;
+    color: var(--primary) !important;
+    background: #FFFFFF !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: 10px !important;
+    padding: 6px !important;
+    box-shadow: var(--shadow-card) !important;
+    margin-left: 0.75rem !important;
+    margin-top: 0.5rem !important;
+    z-index: 99999 !important;
+    cursor: pointer !important;
+}
+
+[data-testid="stSidebarCollapsedControl"]:hover {
+    background: var(--primary-light) !important;
+    border-color: var(--primary) !important;
+    transform: scale(1.05);
 }
 
 .block-container {
+
     padding-top: 1.5rem !important;
     padding-bottom: 4rem !important;
     max-width: 1240px !important;

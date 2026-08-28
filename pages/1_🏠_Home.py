@@ -8,6 +8,14 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
 from pathlib import Path
+
+st.set_page_config(
+    page_title="NRE — Nellore Real Estate",
+    page_icon="🏠",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
 from database.db import (
     init_db, search_properties, total_property_count,
     total_area_count, get_all_areas, get_areas_with_count,
@@ -15,6 +23,7 @@ from database.db import (
 from database.seed import seed
 from components.property_card import render_property_card, _render_contact
 from utils.helpers import format_price, PROPERTY_TYPES
+
 
 # ── Bootstrap ─────────────────────────────────────────────────────────────────
 @st.cache_resource

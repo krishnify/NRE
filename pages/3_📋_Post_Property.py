@@ -12,12 +12,21 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
 from pathlib import Path
+
+st.set_page_config(
+    page_title="Post Property — NRE",
+    page_icon="📋",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
 from database.db import init_db, get_all_areas, add_property, update_property_images
 from database.seed import seed
 from utils.helpers import (
     PROPERTY_TYPES, FACING_LABELS, RESIDENTIAL_TYPES,
     format_price, AREA_COORDS, NELLORE_LAT, NELLORE_LON,
 )
+
 
 
 # ── Bootstrap ─────────────────────────────────────────────────────────────────

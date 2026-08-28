@@ -1,0 +1,323 @@
+/* ============================================================
+   NRE — Nellore Real Estate | Modern Design System
+   Theme: Modern Saffron & Emerald Slate Theme
+   ============================================================ */
+
+/* ── Typography ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ── CSS Variables ───────────────────────────────────────────── */
+:root {
+    --primary:          #FF6B00;   /* Vibrant Saffron */
+    --primary-light:    #FFF4ED;
+    --primary-hover:    #E55A00;
+    --secondary:        #0D824D;   /* Rich Emerald Green */
+    --secondary-light:  #ECFDF5;
+    --secondary-hover:  #0A683D;
+    
+    --bg-page:          #F8FAFC;   /* Modern Slate 50 */
+    --bg-card:          #FFFFFF;
+    --bg-elevated:      #FFFFFF;
+    
+    --text-heading:     #0F172A;   /* Slate 900 */
+    --text-body:        #334155;   /* Slate 700 */
+    --text-muted:       #64748B;   /* Slate 500 */
+    
+    --border-light:     #E2E8F0;   /* Slate 200 */
+    --border-hover:     #CBD5E1;   /* Slate 300 */
+    
+    --shadow-sm:        0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-md:        0 4px 16px -2px rgba(15, 23, 42, 0.07), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+    --shadow-lg:        0 12px 32px -4px rgba(15, 23, 42, 0.10), 0 4px 12px -2px rgba(15, 23, 42, 0.05);
+    --shadow-primary:   0 8px 24px -4px rgba(255, 107, 0, 0.28);
+    
+    --radius-lg:        16px;
+    --radius-md:        12px;
+    --radius-sm:        8px;
+    --radius-pill:      9999px;
+}
+
+/* ── Global Layout & Typography ──────────────────────────────── */
+html, body, [class*="css"] {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    background-color: var(--bg-page) !important;
+    color: var(--text-body) !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Main app container background with subtle radial glow */
+.stApp {
+    background: 
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 107, 0, 0.06), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 85% 10%, rgba(13, 130, 77, 0.04), transparent 60%),
+        var(--bg-page) !important;
+}
+
+/* Streamlit Header / Footer Cleanup */
+#MainMenu, footer, header {
+    visibility: hidden;
+    height: 0;
+}
+
+.block-container {
+    padding-top: 1.8rem !important;
+    padding-bottom: 3.5rem !important;
+    max-width: 1240px !important;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-heading) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+}
+
+h1 { font-size: 2.2rem !important; }
+h2 { font-size: 1.6rem !important; margin-top: 1rem !important; }
+h3 { font-size: 1.25rem !important; }
+
+/* ── Hero Banner ─────────────────────────────────────────────── */
+.nre-hero {
+    background: linear-gradient(135deg, #FF6B00 0%, #FF8A00 45%, #0D824D 100%);
+    border-radius: var(--radius-lg);
+    padding: 3.2rem 2.2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: white;
+    box-shadow: var(--shadow-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.nre-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 20% 150%, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.nre-hero h1 {
+    font-size: 2.9rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.6rem !important;
+    color: white !important;
+    letter-spacing: -0.03em !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.nre-hero p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    opacity: 0.95;
+    margin-bottom: 0 !important;
+    color: #FFFDF9;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Container & Card Surfaces ────────────────────────────────── */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background-color: var(--bg-card) !important;
+    border-radius: var(--radius-lg) !important;
+    border: 1px solid var(--border-light) !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    overflow: hidden;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"]:hover {
+    border-color: var(--border-hover) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* ── Metric / Stat Displays ───────────────────────────────────── */
+[data-testid="stMetric"] {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.2rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(255, 107, 0, 0.3);
+}
+
+[data-testid="stMetricValue"] {
+    font-size: 1.85rem !important;
+    font-weight: 800 !important;
+    color: var(--primary) !important;
+    letter-spacing: -0.03em;
+}
+
+[data-testid="stMetricLabel"] {
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    color: var(--text-muted) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.stButton > button {
+    border-radius: var(--radius-md) !important;
+    font-weight: 600 !important;
+    font-size: 0.92rem !important;
+    padding: 0.55rem 1.4rem !important;
+    border: 1px solid transparent !important;
+    transition: all 0.18s ease-in-out !important;
+    cursor: pointer !important;
+}
+
+/* Primary Button */
+.stButton > button[kind="primary"],
+.stButton > button:not([kind="secondary"]):not([kind="tertiary"]) {
+    background: linear-gradient(135deg, #FF6B00 0%, #FF8500 100%) !important;
+    color: white !important;
+    box-shadow: 0 3px 12px rgba(255, 107, 0, 0.25) !important;
+}
+
+.stButton > button[kind="primary"]:hover,
+.stButton > button:not([kind="secondary"]):not([kind="tertiary"]):hover {
+    background: linear-gradient(135deg, #E55A00 0%, #FF7700 100%) !important;
+    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.35) !important;
+    transform: translateY(-1px);
+}
+
+/* Secondary Button */
+.stButton > button[kind="secondary"] {
+    background: #FFFFFF !important;
+    color: var(--text-heading) !important;
+    border: 1px solid var(--border-light) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.stButton > button[kind="secondary"]:hover {
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
+    background: var(--primary-light) !important;
+    transform: translateY(-1px);
+}
+
+/* ── Input Fields & Selectboxes ──────────────────────────────── */
+.stTextInput input,
+.stNumberInput input,
+.stTextArea textarea,
+.stSelectbox > div > div {
+    border-radius: var(--radius-md) !important;
+    border: 1px solid var(--border-light) !important;
+    background-color: #FFFFFF !important;
+    color: var(--text-heading) !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.stTextInput input:focus,
+.stNumberInput input:focus,
+.stTextArea textarea:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.16) !important;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────── */
+section[data-testid="stSidebar"] {
+    background-color: #FFFFFF !important;
+    border-right: 1px solid var(--border-light) !important;
+    box-shadow: 2px 0 12px rgba(15, 23, 42, 0.03) !important;
+}
+
+section[data-testid="stSidebar"] h2 {
+    color: var(--primary) !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+}
+
+/* ── Expanders ───────────────────────────────────────────────── */
+details {
+    background-color: #FFFFFF !important;
+    border-radius: var(--radius-md) !important;
+    border: 1px solid var(--border-light) !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: all 0.2s ease !important;
+    overflow: hidden;
+}
+
+details:hover {
+    border-color: var(--border-hover) !important;
+}
+
+details[open] {
+    border-color: rgba(255, 107, 0, 0.4) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+summary {
+    font-weight: 600 !important;
+    color: var(--text-heading) !important;
+    padding: 0.8rem 1rem !important;
+}
+
+/* ── Tabs ────────────────────────────────────────────────────── */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.stTabs [data-baseweb="tab"] {
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.15s ease;
+}
+
+.stTabs [aria-selected="true"] {
+    color: var(--primary) !important;
+    border-bottom-color: var(--primary) !important;
+}
+
+/* ── Alerts & Info Banners ───────────────────────────────────── */
+.stAlert {
+    border-radius: var(--radius-md) !important;
+    font-size: 0.92rem !important;
+}
+
+.stSuccess {
+    background-color: #F0FDF4 !important;
+    border-left: 4px solid var(--secondary) !important;
+    color: #166534 !important;
+}
+
+.stInfo {
+    background-color: #FFF7ED !important;
+    border-left: 4px solid var(--primary) !important;
+    color: #9A3412 !important;
+}
+
+/* ── Dialog / Modal Windows ──────────────────────────────────── */
+[data-testid="stDialog"] > div {
+    border-radius: 20px !important;
+    border: 1px solid var(--border-light) !important;
+    box-shadow: var(--shadow-lg) !important;
+    padding: 1.5rem !important;
+}
+
+/* ── Images ──────────────────────────────────────────────────── */
+[data-testid="stImage"] img {
+    border-radius: var(--radius-md);
+    object-fit: cover;
+}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.nre-footer {
+    text-align: center;
+    padding: 2rem 1rem 1rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border-light);
+    margin-top: 3.5rem;
+}
